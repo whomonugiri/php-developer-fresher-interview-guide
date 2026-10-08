@@ -1,32 +1,37 @@
-<!-- In PHP, a constant is an identifier (name) for a simple value that cannot be changed or undefined during the execution of the script. Unlike variables, constants are immutable and remain fixed once set -->
-
-<!-- Key Characteristics of PHP Constants
-No Dollar Sign ($): Unlike variables, constants are declared and accessed without a leading $ symbol.
-
-Global Scope: Constants are automatically global. You can access them anywhere in your script—including inside functions and classes—without needing the global
-
-Naming Conventions: A valid constant name must start with a letter or an underscore, followed by any combination of letters, numbers, or underscores. By convention, they are always written in UPPERCASE. -->
-
 <?php
-const API_KEY = "ASDVBHAVDHAGSHDHASHDASD";
 
-const api_key = "ASDASD ";
+declare(strict_types=1);
 
-define("API_SECRET","asd5a6s5da6s5d6as");
+namespace PhpSeries\Fundamentals;
 
-echo API_KEY;
-echo API_SECRET;
+/**
+ * Q: How do const and define differ?
+ * A: Namespace-level const declarations use constant expressions and cannot
+ *    sit inside a function/conditional. define() runs at runtime, so it can.
+ *    Names are case-sensitive; neither spelling uses $ to access a constant.
+ *    Namespace and class constant rules still matter: not every constant is
+ *    an unqualified global name, and class constants may have visibility.
+ *
+ * These values are public lesson settings. Never put real credentials here.
+ */
+const COURSE_LANGUAGE = 'PHP';
+const OUTPUT_FORMATS = ['html', 'json'];
 
-if(1==1){
-    define("NAME","monu");
+function constantExamples(): array
+{
+    $runtimeName = __NAMESPACE__ . '\\RUNTIME_LABEL';
+    if (!defined($runtimeName)) {
+        define($runtimeName, 'runtime-demo');
+    }
+
+    return [
+        'language' => COURSE_LANGUAGE,
+        'formats' => OUTPUT_FORMATS,
+        'runtime' => constant($runtimeName),
+    ];
 }
 
-//define can be used in loops, conditional statements adn functions also.
-
-//const can be only used in top level scope or classes
-
-
-
-
-?>
-
+if (realpath($_SERVER['SCRIPT_FILENAME'] ?? '') === __FILE__) {
+    // Expected: PHP, [html, json], runtime-demo.
+    echo json_encode(constantExamples(), JSON_PRETTY_PRINT | JSON_THROW_ON_ERROR), PHP_EOL;
+}

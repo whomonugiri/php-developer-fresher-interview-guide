@@ -1,30 +1,35 @@
-
-<!-- 1.Return Value & Expression Use
-• echo does not return any value. Because it has no return value, you cannot use it inside conditional statements or expressions.
-• print always returns the integer 1. This behavior allows it to act like a function and participate in expressions. -->
 <?php
 
-// $result  = print("Hello World");
-// $result2 = echo "Hello World"; it will give syntax error
+declare(strict_types=1);
 
-// var_dump($result);  // Outputs: int(1)
+namespace PhpSeries\Fundamentals;
 
-?>
+/**
+ * Q: Are echo and print functions? What do they return?
+ * A: Both are language constructs. echo can emit comma-separated expressions
+ *    and has no return value. print takes one expression and returns int 1.
+ *    Neither appends a newline. Choose for readability, not microbenchmarks.
+ *
+ * $result = echo 'hello'; is a syntax error. Do not uncomment invalid syntax
+ * in a runnable lesson; explain it in an interview instead.
+ *
+ * @return array{output: string, print_return: int}
+ */
+function outputConstructs(): array
+{
+    ob_start();
+    echo 'Hello', ', ', 'PHP', "\n";
+    $result = print "Printed\n";
+    $output = ob_get_clean();
 
+    if ($output === false) {
+        throw new \RuntimeException('The demonstration output buffer is missing.');
+    }
 
+    return ['output' => $output, 'print_return' => $result];
+}
 
-<!-- 2. Number of Arguments
-• echo can take multiple parameters separated by commas, provided you do not use parentheses.
-• print can only take a single argument. -->
-
-<?php
-$name1 = "John";
-$name2 = "Mukus";
-$name3 = "Sumit";
-
-echo $name1," ",$name2," ",$name3;
-print($name1); 
-print($name2);
-print($name3);
-
-?>
+if (realpath($_SERVER['SCRIPT_FILENAME'] ?? '') === __FILE__) {
+    // output contains two lines; print_return is the integer 1.
+    echo json_encode(outputConstructs(), JSON_PRETTY_PRINT | JSON_THROW_ON_ERROR), PHP_EOL;
+}

@@ -1,74 +1,24 @@
 <?php
-/*
-===============================================================================
-FRESHER PHP DEVELOPER INTERVIEW GUIDE
-PART 2: ARRAYS, STRINGS & FORMS
-By CODEGULLY, Monu Kumar Giri
-===============================================================================
+declare(strict_types=1);
+/**
+ * Question 16: substr() aur str_replace() kya karte hain?
+ *
+ * INTERVIEW ANSWER: substr extracts a byte range; str_replace replaces all matching occurrences.
+ * EXPLANATION (Hinglish): Negative offset end se count karta hai. Original variable unchanged
+ * rahega unless result assign karo. Unicode character slicing ke liye mb_substr use karo;
+ * arbitrary byte cut UTF-8 tod sakta hai.
+ * FOLLOW-UP: How do you learn replacement count? Pass the optional fourth argument to str_replace().
+ *
+ * Run: php "Question_16.php". JSON labels explain each result.
+ * Expected values and edge cases: tests/run.php and README.md.
+ * PHP 8.1+; no Composer dependencies. CODEGULLY / Monu Kumar Giri.
+ */
+require_once __DIR__ . '/lib/lesson.php';
+require_once __DIR__ . '/lib/validation.php';
 
-QUESTION 16 | STRINGS
-substr() aur str_replace() kya karte hain?
-
-DEFINITION / INTERVIEW ANSWER — HINGLISH
--------------------------------------------------------------------------------
-substr() string ka selected portion return karta hai.
-str_replace() specified text ko doosre text se replace karta hai.
-
-DETAILED EXPLANATION — HINGLISH
--------------------------------------------------------------------------------
-substr($orderId, 0, 3) start ke three bytes dega: ORD.
-substr($orderId, -4) end ke four bytes dega: 1045.
-str_replace("Delhi", "Pune", $message) updated text return karega.
-Returned value ko $updatedMessage mein assign kiya hai; $message unchanged hai.
-
-IMPORTANT INTERVIEW POINTS / COMMON MISTAKES
--------------------------------------------------------------------------------
-substr() byte-based hai. Multibyte text ke character-based portions ke liye
-mb_substr() use karo. Arbitrary byte cutting Hindi text ko damage kar sakti hai.
-
-Neeche order ID ASCII text hai, isliye demonstrated slicing suitable hai.
-
-HOW TO USE THIS FILE
--------------------------------------------------------------------------------
-VS Code mein comments padho aur neeche diye gaye complete examples run karo.
-Expected output aur step-by-step explanation code ke paas comments mein hain.
-Har Question file ko separately run karo; sabko ek saath include mat karo.
-
-REFERENCE LINKS FROM THE EARLIER GUIDE
--------------------------------------------------------------------------------
-https://www.php.net/manual/en/function.substr.php
-https://www.php.net/manual/en/function.str-replace.php
-https://www.php.net/manual/en/function.mb-substr.php
-
-CONTENT NOTE
--------------------------------------------------------------------------------
-Yeh file chat mein diye gaye Question 16 ko package karti hai. Koi naya
-interview topic add nahi kiya gaya. Form action/redirect filenames ko runnable
-package ke paths se match kiya gaya hai; relevant changes neeche noted hain.
-===============================================================================
-*/
-
-header("Content-Type: text/html; charset=UTF-8");
-echo "<pre>";
-
-// EXAMPLE 1: Order ID ka portion lena.
-$orderId = "ORD-2026-1045";
-echo substr($orderId, 0, 3);
-// ORD
-echo "<br>";
-
-echo substr($orderId, -4);
-// 1045
-echo "<br>";
-
-// EXAMPLE 2: City replace karna.
-$message = "PHP classes in Delhi";
-$updatedMessage = str_replace("Delhi", "Pune", $message);
-echo $updatedMessage;
-// PHP classes in Pune
-echo "<br>";
-
-echo $message;
-// PHP classes in Delhi — original variable unchanged hai.
-
-echo "</pre>";
+$id = 'ORD-2026-1045';
+$message = 'PHP classes in Delhi; workshops in Delhi';
+$count = 0;
+$updated = str_replace('Delhi', 'Pune', $message, $count);
+return example(['prefix' => substr($id, 0, 3), 'suffix' => substr($id, -4),
+    'updated' => $updated, 'replacements' => $count, 'original' => $message]);

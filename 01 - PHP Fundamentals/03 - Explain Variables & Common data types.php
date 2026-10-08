@@ -1,54 +1,51 @@
-<!-- Rules for PHP variables:
-
-- A variable must start with the $ sign, followed by the name of the variable
-- A variable name must start with a letter or the underscore character
-- A variable name cannot start with a number
-- A variable name can only contain alpha-numeric characters and underscores (A-z, 0-9, and _ )
-- Variable names are case-sensitive ($age and $AGE are two different variables) -->
-
 <?php
 
-$my_home_address = "new delhi";
+declare(strict_types=1);
 
+namespace PhpSeries\Fundamentals;
 
-$NAME="Sumit";
-$name="Mohan";
+/**
+ * Q: Is a variable's type fixed by its first assignment?
+ * A: No. PHP is dynamically typed; a variable can hold a different type later.
+ *    Type declarations add checks at function/property boundaries.
+ *    $name and $NAME are distinct. For portable identifiers use letters,
+ *    digits and underscores, starting with a letter or underscore after $.
+ *
+ * Resources are handles such as streams, not ordinary strings or objects.
+ * Some APIs now return objects instead of resources; inspect their contracts.
+ */
+function variableExamples(): array
+{
+    $value = '42';
+    $before = get_debug_type($value);
+    $value = 42;
+    $after = get_debug_type($value);
 
-// echo $name," ",$NAME;
+    $name = 'Ada';
+    $NAME = 'Lin';
+    $samples = [42, 3.5, true, 'PHP', [1, 2], new \stdClass(), null];
+    $types = array_map(static fn (mixed $sample): string => get_debug_type($sample), $samples);
 
-?>
+    $stream = fopen('php://memory', 'r+');
+    if ($stream === false) {
+        throw new \RuntimeException('Unable to create the in-memory stream.');
+    }
 
-<!-- PHP is a dynamically typed language. This means that you do not need to explicitly declare a variable's data type when creating it. Instead, PHP automatically determines the data type at runtime based on the value assigned to the variable
-common data types:
-string (text values)
-int (whole numbers)
-float (decimal numbers)
-bool (true or false)
-array (multiple values)
-object (stores data as objects)
-null (empty variable) -->
+    try {
+        $resourceType = gettype($stream);
+    } finally {
+        fclose($stream);
+    }
 
-<?php
-$data = "my name is supermanm";
-var_dump($data);
+    return [
+        'reassignment' => [$before, $after],
+        'case_sensitive_names' => [$name, $NAME],
+        'types' => $types,
+        'stream_type' => $resourceType,
+    ];
+}
 
-$data = 100;
-var_dump($data);
-
-$data = 100.55;
-var_dump($data);
-
-$data = true;
-var_dump($data);
-
-$data = [1,2,3,4,5,6,"chsds",true];
-var_dump($data);
-
-$data = new stdClass();
-var_dump($data);
-
-$data = null;
-var_dump($data);
-
-
-?>
+if (realpath($_SERVER['SCRIPT_FILENAME'] ?? '') === __FILE__) {
+    // Reassignment: string -> int. The stream is closed before returning.
+    echo json_encode(variableExamples(), JSON_PRETTY_PRINT | JSON_THROW_ON_ERROR), PHP_EOL;
+}
