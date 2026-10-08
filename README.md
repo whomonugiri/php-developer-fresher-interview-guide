@@ -21,7 +21,7 @@ Parts 5–8 follow the planned OOP, practical architecture, coding-round and tro
 
 ## YouTube video links
 
-Parts 1–5 are published below. Parts 6–8 will be added after manual upload.
+Parts 1–5 are published below. Parts 6–8 are scheduled for October 9, 10 and 11, 2026, respectively, at 6:00 PM IST; their links become publicly watchable when released.
 
 | Part | Video URL |
 | --- | --- |
@@ -30,9 +30,9 @@ Parts 1–5 are published below. Parts 6–8 will be added after manual upload.
 | 3 | https://www.youtube.com/watch?v=FwnN-LjCwC4 |
 | 4 | https://www.youtube.com/watch?v=RY4oEQN8Okc |
 | 5 | https://youtu.be/EfbkCc_ysC4 |
-| 6 | |
-| 7 | |
-| 8 | |
+| 6 | https://youtu.be/JIbFV0kBqKU |
+| 7 | https://youtu.be/54MCvel2UiI |
+| 8 | https://youtu.be/UKeb_3O5bUM |
 
 ## Codegully
 
